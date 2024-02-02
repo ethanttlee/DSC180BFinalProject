@@ -1,0 +1,27 @@
+PLINK v2.00a6 AVX2 (11 Oct 2023)
+Options in effect:
+  --bfile /Users/johndriscoll/Downloads/180A/LDREF/1000G.EUR.6
+  --keep individuals_with_expression.txt
+  --make-bed
+  --out /Users/johndriscoll/Downloads/180B/LDREF/1000G.EUR.6
+
+Hostname: Johns-MacBook-Air-2.local
+Working directory: /Users/johndriscoll/Downloads/180B
+Start time: Sun Jan 28 15:27:35 2024
+
+Random number seed: 1706484455
+16384 MiB RAM detected; reserving 8192 MiB for main workspace.
+Using up to 8 compute threads.
+489 samples (0 females, 0 males, 489 ambiguous; 489 founders) loaded from
+/Users/johndriscoll/Downloads/180A/LDREF/1000G.EUR.6.fam.
+75358 variants loaded from
+/Users/johndriscoll/Downloads/180A/LDREF/1000G.EUR.6.bim.
+Note: No phenotype data present.
+--keep: 343 samples remaining.
+343 samples (0 females, 0 males, 343 ambiguous; 343 founders) remaining after
+main filters.
+Writing /Users/johndriscoll/Downloads/180B/LDREF/1000G.EUR.6.fam ... done.
+Writing /Users/johndriscoll/Downloads/180B/LDREF/1000G.EUR.6.bim ... done.
+Writing /Users/johndriscoll/Downloads/180B/LDREF/1000G.EUR.6.bed ... done.
+
+End time: Sun Jan 28 15:27:35 2024
