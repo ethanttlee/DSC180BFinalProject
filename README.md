@@ -1,4 +1,4 @@
-Coloc Matrix Generation
+### Coloc Matrix Generation
 
 We generate the coloc matrix in R using the code containted in the "coloc_matrix.ipynb" file iterating through disease datasets and cis-eQTL summary statistics generated with 1000 genomes. Reproducing the resulting matrix requires the following:
 
@@ -9,7 +9,7 @@ We generate the coloc matrix in R using the code containted in the "coloc_matrix
 Since these operations are all computationally intensive, it is recommended that they be performed in a remote development server. A docker environment suitable for all tasks with coloc installed can be found at ghcr.io/jjdrisco/dsmlp-coloc-notebook .
 
 
-Gene Set Enrichment Analysis
+### Gene Set Enrichment Analysis
 
 
 The first part of our project is the gene set enrichment analysis, which we performed on gene expression data from the 1000Genomes dataset and the Hallmark gene sets. Our analysis began with the data manipulation, as seen in the "GSEA.ipynb" Jupyter notebook.
