@@ -1,3 +1,14 @@
+Coloc Matrix Generation
+
+We generate the coloc matrix in R using the code containted in the "coloc_matrix.ipynb" file iterating through disease datasets and cis-eQTL summary statistics generated with 1000 genomes. Reproducing the resulting matrix requires the following:
+
+1. Generate cis-eQTL summary statistics by running "generate_eQTL_base_data.py", with the 1000 G European Individuals downloadable at https://data.broadinstitute.org/alkesgroup/FUSION/LDREF.tar.bz2 , gene expression data for the individuals "GD462.GeneQuantRPKM.50FN.samplename.resk10.txt" and gene annotation file "gene_annot.txt" in the same directory as the script.
+2. Downloading GWAS data using the "load_gwas.sh" bash script
+3. Running "coloc_matrix.ipynb". This step requires that you install the R package coloc.
+
+Since these operations are all computationally intensive, it is recommended that they be performed in a remote development server. A docker environment suitable for all tasks with coloc installed can be found at ghcr.io/jjdrisco/dsmlp-coloc-notebook .
+
+
 Gene Set Enrichment Analysis
 
 
