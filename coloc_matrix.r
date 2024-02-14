@@ -53,16 +53,21 @@ for (i in 1:length(disease_files)) {
     gwas_list$type <- "cc"
     gwas_list$s <- case_control_props[i]
     
-    tryCatch( 
+    gwas_fail <- tryCatch( 
 	{
 		check_dataset(gwas_list)
 	},
 	error = function(cond)	{
-        	error_message <- paste("Error: disease file ", disease_list[i], " has error: \n ", cond, sep="", collapse="")
-        	cat(error_message, file = error_file_path, append = TRUE)
-		next
-    	}
+        error_message <- paste("Error: disease file ", disease_list[i], " has error: \n ", cond, sep="", collapse="")
+        cat(error_message, file = error_file_path, append = TRUE)
+    }
 	)
+
+    if(inherits(gwas_fail, "error")) {
+        curr_results <- rep(list(NULL), len(eQTL_files))
+        next
+    }
+
 
     print(paste("Processed disease file ", disease_files[i], sep="", collapse=""))
     
@@ -82,17 +87,20 @@ for (i in 1:length(disease_files)) {
         eQTL_list$N <- eQTL_data$N[0]
         eQTL_list$MAF <- eQTL_data$MAF
 
-	tryCatch( 
-	{
-		suppressWarnings(check_dataset(eQTL_list))
-	},
-	error = function(cond) {
-		error_message <- paste("Error: eQTL file ", eQTL_file, " has error: \n ", check_dataset(gwas_list), sep="", collapse="")
+        eQTL_fail <- tryCatch( 
+            {
+                suppressWarnings(check_dataset(eQTL_list))
+            },
+            error = function(cond) {
+                error_message <- paste("Error: eQTL file ", eQTL_file, " has error: \n ", check_dataset(gwas_list), sep="", collapse="")
                 cat(error_message, file = error_file_path, append = TRUE)
-                curr_results <- append(curr_results, list(NULL))
-	},
-	
-	)
+            }
+        )
+
+        if(inherits(gwas_fail, "error")) {
+            curr_results <- append(curr_results, list(NULL))
+            next
+        }
 
         
         coloc_results <- coloc.abf(gwas_list, eQTL_list)
