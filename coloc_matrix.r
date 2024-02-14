@@ -30,10 +30,10 @@ for (i in 1:length(disease_files)) {
     
     curr_results <- list()
     
-    #download current gwas file
-    system2(command = "curl", 
-        args    = c(disease_files[i]), 
-        stdout  = paste("gwas_data/",disease_list[i],".tsv", sep="", collapse=""))
+#    #download current gwas file
+#    system2(command = "curl", 
+#        args    = c(disease_files[i]), 
+#        stdout  = paste("gwas_data/",disease_list[i],".tsv", sep="", collapse=""))
     
     curr_gwas <- na.omit(read.csv(paste("gwas_data/",disease_list[i],".tsv", sep="", collapse=""), 
                                   sep = '\t', header = TRUE,
@@ -53,12 +53,18 @@ for (i in 1:length(disease_files)) {
     gwas_list$type <- "cc"
     gwas_list$s <- case_control_props[i]
     
-    if (!is.null(check_dataset(gwas_list))) {
-        error_message <- paste("Error: disease file ", disease_list[i], " has error: \n ", check_dataset(gwas_list), sep="", collapse="")
-        cat(error_message, file = error_file_path, append = TRUE)
-    }
+    tryCatch( 
+	{
+		check_dataset(gwas_list)
+	},
+	error = function(cond)	{
+        	error_message <- paste("Error: disease file ", disease_list[i], " has error: \n ", cond, sep="", collapse="")
+        	cat(error_message, file = error_file_path, append = TRUE)
+		next
+    	}
+	)
 
-    #print(paste("Processed disease file ", disease_files[i], sep="", collapse=""))
+    print(paste("Processed disease file ", disease_files[i], sep="", collapse=""))
     
     
     num_files <- length(eQTL_files)
@@ -76,11 +82,18 @@ for (i in 1:length(disease_files)) {
         eQTL_list$N <- eQTL_data$N[0]
         eQTL_list$MAF <- eQTL_data$MAF
 
-        if (!is.null(check_dataset(eQTL_list))) {
-            error_message <- paste("Error: eQTL file ", eQTL_file, " has error: \n ", check_dataset(gwas_list), sep="", collapse="")
-            cat(error_message, file = error_file_path, append = TRUE)
-        }
-        
+	tryCatch( 
+	{
+		suppressWarnings(check_dataset(eQTL_list))
+	},
+	error = function(cond) {
+		error_message <- paste("Error: eQTL file ", eQTL_file, " has error: \n ", check_dataset(gwas_list), sep="", collapse="")
+                cat(error_message, file = error_file_path, append = TRUE)
+                curr_results <- append(curr_results, list(NULL))
+	},
+	
+	)
+
         
         coloc_results <- coloc.abf(gwas_list, eQTL_list)
     
@@ -88,22 +101,22 @@ for (i in 1:length(disease_files)) {
 
         counter <- counter + 1
         
-        #print(paste("Processed ", counter/num_files, " eQTL files", sep="", collapse=""))
+        print(paste("Processed ", counter/num_files, " eQTL files", sep="", collapse=""))
     
     }
     
     result_matrix[[disease_list[[i]]]] <- curr_results
     
     #remove file for storage space
-    system2(command = "rm", 
-        args    = c(disease_list[i]+".tsv"), 
-        stdout  = paste("gwas_data/",disease_list[i],".tsv", sep="", collapse=""))
-    
+    #system2(command = "rm", 
+    #    args    = c(disease_list[i]+".tsv"), 
+    #    stdout  = paste("gwas_data/",disease_list[i],".tsv", sep="", collapse=""))
+    break 
 }
 
 result_frame <- t(data.frame(unlist(result_matrix)))
 colnames(result_frame) <- list.files(path="/Users/johndriscoll/Downloads/180B/DSC180BFinalProject/eQTL_subsets", pattern='ENSG.*', full.names = FALSE)
-rownames(result_frame) <- disease_list
+rownames(result_frame) <- disease_list[1]
 
 write.csv(result_frame, "coloc_matrix.csv")
 
