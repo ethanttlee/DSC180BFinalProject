@@ -71,6 +71,7 @@ for (i in 1:length(disease_files)) {
 
     print(paste("Processed disease file ", disease_files[i], sep="", collapse=""))
     
+    eQTL_files <- eQTL_files[1:30]
     
     num_files <- length(eQTL_files)
     counter <- 0
@@ -90,6 +91,7 @@ for (i in 1:length(disease_files)) {
         eQTL_fail <- tryCatch( 
             {
                 suppressWarnings(check_dataset(eQTL_list))
+		suppressWarnings(coloc_results <- coloc.abf(gwas_list, eQTL_list))
             },
             error = function(cond) {
                 error_message <- paste("Error: eQTL file ", eQTL_file, " has error: \n ", check_dataset(gwas_list), sep="", collapse="")
@@ -103,8 +105,6 @@ for (i in 1:length(disease_files)) {
         }
 
         
-        coloc_results <- coloc.abf(gwas_list, eQTL_list)
-    
         curr_results <- append(curr_results, coloc_results$summary[[6]])
 
         counter <- counter + 1
@@ -123,7 +123,7 @@ for (i in 1:length(disease_files)) {
 }
 
 result_frame <- t(data.frame(unlist(result_matrix)))
-colnames(result_frame) <- list.files(path="/Users/johndriscoll/Downloads/180B/DSC180BFinalProject/eQTL_subsets", pattern='ENSG.*', full.names = FALSE)
+colnames(result_frame) <- list.files(path="/Users/johndriscoll/Downloads/180B/DSC180BFinalProject/eQTL_subsets", pattern='ENSG.*', full.names = FALSE)[1:30]
 rownames(result_frame) <- disease_list[1]
 
 write.csv(result_frame, "coloc_matrix.csv")
