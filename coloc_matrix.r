@@ -123,7 +123,7 @@ for (i in 1:length(disease_files)) {
 }
 
 result_frame <- t(data.frame(unlist(result_matrix)))
-colnames(result_frame) <- list.files(path="/Users/johndriscoll/Downloads/180B/DSC180BFinalProject/eQTL_subsets", pattern='ENSG.*', full.names = FALSE)[1:30]
+colnames(result_frame) <- list.files(path='eQTL_subsets', pattern='ENSG.*', full.names = FALSE)[1:30]
 rownames(result_frame) <- disease_list[1]
 
 write.csv(result_frame, "coloc_matrix.csv")
