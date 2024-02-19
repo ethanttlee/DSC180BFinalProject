@@ -71,7 +71,7 @@ for (i in 1:length(disease_files)) {
 
     print(paste("Processed disease file ", disease_files[i], sep="", collapse=""))
     
-    eQTL_files <- eQTL_files[1:30]
+    #eQTL_files <- eQTL_files[1:30]
     
     num_files <- length(eQTL_files)
     counter <- 0
@@ -109,7 +109,7 @@ for (i in 1:length(disease_files)) {
 
         counter <- counter + 1
         
-        print(paste("Processed ", counter/num_files, " eQTL files", sep="", collapse=""))
+        print(paste("Processed ", counter, " : ", counter/num_files, " eQTL files", sep="", collapse=""))
     
     }
     
@@ -123,7 +123,7 @@ for (i in 1:length(disease_files)) {
 }
 
 result_frame <- t(data.frame(unlist(result_matrix)))
-colnames(result_frame) <- list.files(path='eQTL_subsets', pattern='ENSG.*', full.names = FALSE)[1:30]
+colnames(result_frame) <- list.files(path='eQTL_subsets', pattern='ENSG.*', full.names = FALSE)
 rownames(result_frame) <- disease_list[1]
 
 write.csv(result_frame, "coloc_matrix.csv")
