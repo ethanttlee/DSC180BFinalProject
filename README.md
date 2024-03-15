@@ -1,16 +1,22 @@
-### Coloc Matrix Generation
+### Colocalization Analysis
 
-We generate the coloc matrix in R using the code containted in the "coloc_matrix.r" file iterating through disease datasets and cis-eQTL summary statistics generated with 1000 genomes. Reproducing the resulting matrix requires the following:
+This is the first step of the process, and is required to run the rest of the code in our project. Due to the long nature of the process, we have also included our results. To begin, clone the entire repository (including the data files), and then open the notebook and run it. 
 
-1. Generate cis-eQTL summary statistics by running "generate_eQTL_base_data.py", with the 1000 G European Individuals downloadable at https://data.broadinstitute.org/alkesgroup/FUSION/LDREF.tar.bz2 , gene expression data for the individuals "GD462.GeneQuantRPKM.50FN.samplename.resk10.txt" and gene annotation file "gene_annot.txt" in the same directory as the script.
-2. Running coloc_matrix.r as a Rscript (will take roughly 12 hours per disease gwas)
+Downloading the data:
+- All of the data is retrieved from a publication in the GWAS Catalog: https://www.ebi.ac.uk/gwas/publications/32589924
+- For each diseases of interest, please navigate to 'Full summary statistics' tab, then do 'FTP Download', and download the tsv file (example: 'GCST010774_buildGRCh37.tsv' for essential hypertension). This file should be around 3.6 GB.
+- After downloading all files of interest, proceed with the next step.
 
-Since these operations are all computationally intensive, it is recommended that they be performed in a remote development server. A docker environment suitable for all tasks with coloc installed can be found at ghcr.io/jjdrisco/dsmlp-coloc-notebook .
-To run the background task, we used the "screen" utility included in the above environment. The commands in order are as follows once inside the environment:
-- `screen`
-- `Rscript coloc_matrix.r > coloc_matrix.r.Rout &`
-- `control-a-d`
-After leaving the background screen open, use `screen -ls` to view the number of the screen, and re-enter using `screen -r <screennum>` if needed.
+Running coloclization.ipynb:
+- The first step is to configure which disease you want to run. After doing so, manually select the diseases of choice and modify the code by adding the disease name and the corresponding disease file. This should be done third and fourth cells in the notebook.
+- After this, follow each cell step by step, and run the cells accordingly.
+- Optional: once you reach the 'batch processing' step, you can configure batches to run the disease in. Be wary, because as configured, the code will run the code for every single gene, which could take several hours.
+- Once the cell which converts the data to a csv file called 'results_df_unique.csv' is reached, the data will be complete, and saved locally. The following cells are not necessary, and are only for manual configuration of the batch processing.
+- The 'results_df_unique.csv' should be renamed, as it represents the results for just one of the diseases.
+- Be sure to run this same notebook for every single disease of interest.
+- Following this, open the notebook 'disease_coloc_aggregate.ipynb', and run all of the cells. This should just combine all of the disease data into one single results file, called 'diseases_df.csv'.
+- Congratulations, the colicalization analysis is complete!
+
 
 
 ### Gene Set Enrichment Analysis
