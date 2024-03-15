@@ -7,7 +7,7 @@ Downloading the data:
 - For each diseases of interest, please navigate to 'Full summary statistics' tab, then do 'FTP Download', and download the tsv file (example: 'GCST010774_buildGRCh37.tsv' for essential hypertension). This file should be around 3.6 GB.
 - After downloading all files of interest, proceed with the next step.
 
-Running coloclization.ipynb:
+Running colocalization.ipynb:
 - The first step is to configure which disease you want to run. After doing so, manually select the diseases of choice and modify the code by adding the disease name and the corresponding disease file. This should be done third and fourth cells in the notebook.
 - After this, follow each cell step by step, and run the cells accordingly.
 - Optional: once you reach the 'batch processing' step, you can configure batches to run the disease in. Be wary, because as configured, the code will run the code for every single gene, which could take several hours.
