@@ -17,7 +17,17 @@ Running coloclization.ipynb:
 - Following this, open the notebook 'disease_coloc_aggregate.ipynb', and run all of the cells. This should just combine all of the disease data into one single results file, called 'diseases_df.csv'.
 - Congratulations, the colicalization analysis is complete!
 
+### Principal Component Analysis and Clustering
 
+Principal component analysis and clustering is the next step, and is performed on the colocalization results ('diseases_df' in the GitHub). 
+
+Running PCA:
+- Open the 'PCA_visualizations.ipynb' notebook, and run the cells accordingly. This notebook essentially loads in the data, does some processing, and configures the principal components.
+- Aftering configuring the principal components, several different plots and visualizations are generated, including a scree plot, biplot, scatter plot highlighted with clusters, and a heatmap of diseases versus clusters.
+
+Running Clustering:
+- Open the 'cluster_visualizations.ipynb' notebook, and run the cells accordingly. This notebook loads in the data, processes it, and performs hierarchical clustering on the colocalization results.
+- It also creates several visualizations out of the hierarchical clusters, including a dendrogram and a heatmap of the diseases versus the genes (includes the clusters).
 
 ### Gene Set Enrichment Analysis
 
